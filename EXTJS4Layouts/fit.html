@@ -1,0 +1,25 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript" src="get-grid.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function() {
+
+    w = Ext.create('Ext.window.Window', {
+        title: 'This grid is sized to fit',
+        height: 300,
+        width: 800,
+        layout: 'fit',
+        items: Ext.apply(getGrid(), { border: false})
+    });
+    w.show();
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>

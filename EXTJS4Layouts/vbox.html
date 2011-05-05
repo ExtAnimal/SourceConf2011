@@ -1,0 +1,41 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function() {
+
+    Ext.tip.QuickTipManager.init();
+
+    w = Ext.create('Ext.window.Window', {
+        title: 'How can we make this look good?',
+        height: 800,
+        width: 300,
+        layout: 'vbox',
+        defaults: {
+            headerPosition: 'right'
+        },
+        items: [{
+            title: 'Fixed at 100',
+            height: 100
+        }, {
+            title: 'takes up 50% <b>remaining</b> space',
+            flex: 1
+        }, {
+            title: 'Fixed at 100',
+            height: 100
+        }, {
+            title: 'takes up 50% <b>remaining</b> space',
+            flex: 1
+        }]
+    });
+    w.show();
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>

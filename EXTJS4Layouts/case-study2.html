@@ -1,0 +1,53 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function() {
+
+    Ext.tip.QuickTipManager.init();
+
+    var mainCenter = Ext.create('Ext.container.Container', {
+        region: 'center',
+        style: 'background-color:yellow'
+    });
+
+    var metaData = Ext.create('Ext.tab.Panel', {
+        title: '&#160;',
+        region: 'east',
+        width: 300,
+        items: {
+            title: 'Description',
+            bodyStyle: 'background-color:red'
+        }
+    })
+
+    var appPanel = Ext.create('Ext.panel.Panel', {
+        dockedItems: {
+            dock: 'top',
+            xtype: 'toolbar',
+            items: {
+                text: 'Button'
+            }
+        },
+        layout: 'border',
+        items: [
+            mainCenter,
+            metaData
+        ],
+        bodyStyle: 'background-color:blue'
+    });
+
+    Ext.create('Ext.Viewport', {
+        layout: 'fit',
+        items: appPanel
+    });
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>

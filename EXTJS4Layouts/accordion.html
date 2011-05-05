@@ -1,0 +1,83 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript" src="get-grid.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+function getForm() {
+    return Ext.create('Ext.panel.Panel', {
+        title: 'Form',
+        bodyStyle: {
+            padding: '5px'
+        },
+        items: [{
+            xtype: 'textfield',
+            name: 'username',
+            fieldLabel: 'User Name',
+            allowBlank: false,
+            minLength: 6
+        }, {
+            xtype: 'textfield',
+            name: 'email',
+            fieldLabel: 'Email Address',
+            vtype: 'email',
+            allowBlank: false
+        }, {
+            xtype: 'textfield',
+            name: 'password1',
+            fieldLabel: 'Password',
+            inputType: 'password',
+             allowBlank: false,
+            minLength: 8
+        }, {
+            xtype: 'textfield',
+            name: 'password2',
+            fieldLabel: 'Repeat Password',
+            inputType: 'password',
+            allowBlank: false,
+            /**
+             * Custom validator implementation - checks that the value matches what was entered into
+             * the password1 field.
+             */
+            validator: function(value) {
+                var password1 = this.previousSibling('[name=password1]');
+                return (value === password1.getValue()) ? true : 'Passwords do not match.'
+            }
+        },
+        {
+            xtype: 'checkboxfield',
+            name: 'acceptTerms',
+            fieldLabel: 'Terms of Use',
+            hideLabel: true,
+            style: 'margin-top:15px',
+            boxLabel: 'I have read and accept the <a href="http://www.sencha.com/legal/terms-of-use/" class="terms">Terms of Use</a>.',
+        }],
+    });
+}
+
+Ext.onReady(function() {
+
+    w = Ext.create('Ext.window.Window', {
+        title: 'Accordion',
+        height: 600,
+        width: 500,
+        minWidth: 500,
+        autoScroll: true,
+        layout: {
+            type: 'accordion',
+            titleCollapse: true
+        },
+        items: [
+            getGrid(),
+            getForm()
+        ]
+    });
+    w.show();
+});
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<html>
+<head>
+    <title>Dock Layout</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script type="text/javascript">
+    Ext.require(['*']);
+
+    Ext.onReady(function() {
+
+        Ext.create('Ext.Panel', {
+            renderTo: Ext.getBody(),
+            title: 'Docked Panel - Top/Left toolbars',
+            tools: [{
+                type: 'pin'
+            }],
+            width: 600,
+            height: 500,
+            bodyStyle: 'padding: 5px;',
+            dockedItems: [{
+                xtype : 'toolbar',
+                dock  : 'top',
+                items: ['->', {
+                    xtype: 'button',
+                    text : 'Togggle pin',
+                    handler: function(b) {
+                        var p = b.up('panel').down('tool[type=pin]');
+                        p[p.isVisible() ? 'hide' : 'show']();
+                    }
+                }, {
+                    xtype: 'button',
+                    text : 'Two'
+                }, {
+                    xtype: 'button',
+                    text : 'Three'
+                }, {
+                    xtype: 'button',
+                    text : 'Four'
+                }, {
+                    xtype: 'button',
+                    text : 'Five'
+                }]
+            }, {
+                xtype : 'toolbar',
+                dock  : 'left',
+                vertical : true,
+                layout: {
+                    align: 'center'
+                },
+                items: [{
+                    xtype: 'button',
+                    text : 'Six'
+                }, {
+                    xtype: 'button',
+                    text : 'Seven'
+                }, {
+                    xtype: 'button',
+                    text : 'Eight'
+                }, {
+                    xtype: 'button',
+                    text : 'Nine'
+                }, {
+                    xtype: 'button',
+                    text : 'Ten'
+                }]
+            }],
+            html: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        });
+    });
+    </script>
+</head>
+<body style="padding:10px">
+</body>
+</html>

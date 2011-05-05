@@ -1,0 +1,36 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function() {
+
+    Ext.tip.QuickTipManager.init();
+
+    w = Ext.create('Ext.window.Window', {
+        title: 'If no flexes, <u>pack</u> may be used for horizontal packing. This is pack: \'center\'',
+        height: 300,
+        width: 800,
+        layout: {
+            type: 'hbox',
+            align: 'stretch',
+            pack: 'center'
+        },
+        items: [{
+            title: 'Fixed at 100',
+            width: 100
+        }, {
+            title: 'Fixed at 100',
+            width: 100
+        }]
+    });
+    w.show();
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>

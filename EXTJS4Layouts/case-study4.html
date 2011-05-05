@@ -1,0 +1,89 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function() {
+
+    var explorer = Ext.create('Ext.panel.Panel', {
+       title: 'Media Explorer',
+       region: 'west',
+       collapsible: true,
+       width: 200,
+       bodyStyle: 'background-color:lightgreen'
+    });
+
+    var messageLog = Ext.create('Ext.panel.Panel', {
+        height: 120,
+        region: 'south',
+        collapsible: true,
+        title: 'User messages'
+    })
+
+    var metaData = Ext.create('Ext.tab.Panel', {
+        title: '&#160;',
+        region: 'east',
+        width: 300,
+        collapsible: true,
+        items: {
+            title: 'Description',
+            bodyStyle: 'background-color:red'
+        }
+    })
+
+    // Container which has media thumbnails in north and preview in center
+    var mediaView = Ext.create('Ext.container.Container', {
+        region: 'center',
+        style: 'background-color:pink'
+    });
+
+    var explorerAndView = Ext.create('Ext.container.Container', {
+        region: 'center',
+        layout: 'border',
+        style: 'background-color:rgb(177,131,255)',
+        items: [
+            explorer,           // West tree,
+            mediaView           // Image preview
+        ]
+    })
+
+    var mainCenter = Ext.create('Ext.container.Container', {
+        region: 'center',
+        layout: 'border',
+        style: 'background-color:yellow',
+        items: [
+            explorerAndView,
+            messageLog          // South log panel
+        ]
+    });
+
+    var appPanel = Ext.create('Ext.panel.Panel', {
+        border: false,
+        dockedItems: {
+            dock: 'top',
+            xtype: 'toolbar',
+            items: {
+                text: 'Button'
+            }
+        },
+        layout: 'border',
+        items: [
+            mainCenter,
+            metaData
+        ],
+        bodyStyle: 'background-color:blue'
+    });
+
+    Ext.create('Ext.Viewport', {
+        layout: 'fit',
+        items: appPanel
+    });
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Templates</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <style type="text/css">
+        h1#header {
+            background: #7F99BE url(../layout-browser/images/layout-browser-hd-bg.gif) repeat-x center;
+            font-size: 16px;
+            color: #fff;
+            font-weight: normal;
+            padding: 5px 10px;
+        }
+        pre.code, .xtemplate-results .x-window-body {
+            font-size: 200%;
+        }
+        pre.code b {
+            font-weight: bold;
+            color: #11bb22;
+        }
+
+        .xtemplate-results ul {
+            padding-left: 2.5em;
+        }
+        .xtemplate-results ul li {
+            list-style: disc;
+        }
+        .xtemplate-results .x-window-body {
+            padding: 10px;
+        }
+        .xtemplate-results .family-member {
+            font-size: 13px;
+            line-height: 16px;
+            cursor: pointer;
+        }
+        .xtemplate-results .adult {
+            padding-left: 18px;
+            background: transparent url(../../resources/themes/images/default/tree/leaf.gif) left top no-repeat;
+        }
+        .xtemplate-results .child {
+            padding-left: 18px;
+            background: transparent url(../../resources/themes/images/default/tree/leaf.gif) left top no-repeat;
+        }
+        .xtemplate-results .grandchild {
+            padding-left: 18px;
+            background: transparent url(../../resources/themes/images/default/tree/leaf.gif) left top no-repeat;
+        }
+        .xtemplate-results .has-children{
+            background: transparent url(../../resources/themes/images/default/tree/folder-open.gif) left top no-repeat;
+        }
+        .xtemplate-results table.job td.job-prop {
+           padding: 0 20px 0 20px;
+        }
+    </style>
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script type="text/javascript" src="templates.js"></script>
+</head>
+<body>
+
+<pre class="code x-hidden" data-title="Simple token substitution">
+var tpl = Ext.create('Ext.Template',
+    '&lt;div>',
+        'Hello <b>{name}</b>!',
+    '&lt;/div>');
+tpl.apply({
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17)
+});
+</pre>
+
+<pre class="code x-hidden" data-title="Formatting values">
+var tpl = Ext.create('Ext.XTemplate',
+    '&lt;div>',
+        '{name} was born on <b>{dob:date("d-M-Y")}</b>',
+    '&lt;/div>',
+    '&lt;div>',
+        '{name} earns <b>{salary:currency}</b>',
+    '&lt;/div>',
+    '&lt;div>',
+        '{name} knows <b>{skills:this.unorderedList}</b>',
+    '&lt;/div>', {
+        unorderedList: function(v) {
+            var result = "&lt;ul>";
+
+            for (var i = 0; i < v.length; i++) {
+                result += "&lt;li>" + v[i] + "&lt;/li>";
+            }
+
+            return result + "&lt;/ul>";
+        }
+    });
+tpl.apply({
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17),
+    salary: 25000,
+    skills: ['C++', 'Cobol', 'CSS', 'ExtJS', 'Fortran', 'HTML/DOM', 'Java', 'Javascript', 'Sencha Touch']
+});
+</pre>
+
+<pre class="code x-hidden" data-title="Javascript expression evaluation">
+var tpl = Ext.create('Ext.XTemplate',
+    '&lt;div>',
+        '{name} is <b>{[new Date().getFullYear() - values.dob.getFullYear()]}</b> years old.',
+    '&lt;/div>');
+tpl.apply({
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17)
+});
+</pre>
+
+<pre class="code x-hidden" data-title="Member function execution">
+var tpl = Ext.create('Ext.XTemplate',
+    '&lt;div>',
+        '{name} is <b>{[this.getAge(values.dob)]}</b> years old.',
+    '&lt;/div>', {
+
+    getAge: function(dob) {
+        var year = 1000 * 60 * 60 * 24 * 365.25,
+            now = new Date(),
+            f = dob.getMonth() * 10 + dob.getDate(),
+            f1 = now.getMonth() * 10 + now.getDate(),
+            age = now.getFullYear() - dob.getFullYear();
+
+        return (f1 &gt; f) ? age : age - 1;
+    }
+});
+tpl.apply({
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17)
+});</pre>
+
+<pre class="code x-hidden" data-title="Iteration + special values">
+var tpl = Ext.create('Ext.XTemplate',
+    <b>'&lt;tpl for=".">'</b>,
+        '&lt;div><b>{#}</b>/<b>{[xcount]}</b>. {name} is {[this.getAge(values.dob)]} years old.&lt;/div>',
+    <b>'&lt;/tpl>'</b>, {
+
+    getAge: function(dob) {
+        var year = 1000 * 60 * 60 * 24 * 365.25,
+            now = new Date(),
+            f = dob.getMonth() * 10 + dob.getDate(),
+            f1 = now.getMonth() * 10 + now.getDate(),
+            age = now.getFullYear() - dob.getFullYear();
+
+        return (f1 &gt; f) ? age : age - 1;
+    }
+});
+tpl.apply([{
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17),
+    sex: 'M'
+}, {
+    name: 'Faye',
+    dob: new Date(1964, 1, 22),
+    sex: 'F'
+}]);
+</pre>
+
+<pre class="code x-hidden" data-title="Sub Templates for an array">
+var tpl = Ext.create('Ext.XTemplate',
+    '&lt;div>',
+        '{name} was born on {dob:date("d-M-Y")}',
+    '&lt;/div>',
+    '&lt;div>',
+        '{name} earns {salary:currency}',
+    '&lt;/div>',
+    '&lt;div>',
+        '{name} knows &lt;ul>',
+            <b>'&lt;tpl for="skills">',
+                '&lt;li>{.}&lt;/li>',
+            '&lt;/tpl></b>',
+        '&lt;/ul>',
+    '&lt;/div>');
+tpl.apply({
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17),
+    salary: 25000,
+    skills: ['C++', 'Cobol', 'CSS', 'ExtJS', 'Fortran', 'HTML/DOM', 'Java', 'Javascript', 'Sencha Touch']
+});
+</pre>
+
+<pre class="code x-hidden" data-title="Sub Templates for an object">
+var tpl = Ext.create('Ext.XTemplate',
+    '&lt;div>',
+        '{name} was born on {dob:date("d-M-Y")}',
+    '&lt;/div>',
+    '&lt;div>',
+        '{name}\'s job:',
+        '&lt;table class="job">',
+            <b>'&lt;tpl for="job">',
+                '&lt;tr>&lt;td class="job-prop">Title:&lt;/td>&lt;td>{title}&lt;/td>&lt;/tr>',
+                '&lt;tr>&lt;td class="job-prop">Started:&lt;/td>&lt;td>{startDate:date("d-M-Y")}&lt;/td>&lt;/tr>',
+                '&lt;tr>&lt;td class="job-prop">Salary:&lt;/td>&lt;td>{salary:currency}&lt;/td>&lt;/tr>',
+            '&lt;/tpl></b>',
+        '&lt;/table>',
+    '&lt;/div>');
+tpl.apply({
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17),
+    job: {
+        title: 'Sr. Software Architect',
+        startDate: new Date(2011, 0, 10),
+        salary: 25000,
+    }
+});
+</pre>
+
+<pre class="code x-hidden" data-title="Conditions">
+var tpl = Ext.create('Ext.XTemplate',
+    '&lt;tpl for=".">',
+        '&lt;div>',
+            '{name} will have a ',
+                <b>'&lt;tpl if="sex==&amp;quot;M&amp;quot;"></b>Beer<b>&lt;/tpl>'</b>,
+                <b>'&lt;tpl if="sex==&amp;quot;F&amp;quot;"></b>Wine<b>&lt;/tpl>'</b>,
+        '&lt;/div>',
+    '&lt;/tpl>');
+tpl.apply([{
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17),
+    sex: 'M'
+}, {
+    name: 'Faye',
+    dob: new Date(1964, 1, 22),
+    sex: 'F'
+}]);
+</pre>
+
+<pre class="code x-hidden" data-title="Recursion">
+var familyTree = Ext.create('Ext.XTemplate',
+    '&lt;tpl for=".">',
+        '&lt;div class="family-member {[this.getClass(values, xindex, xcount)]}">',
+            '{name}',
+            '<b>{[this.renderChildren(values.children)]}</b>',
+        '&lt;/div>',
+    '&lt;/tpl>', {
+
+    <b>renderChildren: function(children) {
+        var result = '';
+        if (children && children.length) {
+            this.level = (this.level||0) + 1;
+            result = this.apply(children);
+            this.level--;
+        }
+        return result;
+    }</b>,
+    getClass: function(values, index, count) {
+        if (!Ext.isDefined(this.level)) {
+            this.level = 0;
+        }
+
+        var result = (index == 1) ? 'first ' : '';
+        switch (this.level) {
+            case 0: result += "adult";
+                    break;
+            case 1: result += "child";
+                    break;
+            case 2: result += "grandchild";
+        }
+        if (values.children && values.children.length) {
+            result += ' has-children';
+        }
+        return result + ((index == count) ? ' last' : '');
+    }
+});
+familyTree.apply([{
+    name: 'Nigel',
+    dob: new Date(1962, 5, 17),
+    sex: 'M'
+}, {
+    name: 'Faye',
+    dob: new Date(1964, 1, 22),
+    sex: 'F',
+    children: [{
+        name: 'Theodore',
+        dob: new Date(1989, 4, 12),
+        sex: 'M'
+    }, {
+        name: 'Alisdair',
+        dob: new Date(1987, 5, 6),
+        sex: 'M',
+        children: [{
+            name: 'Luke',
+            dob: new Date(2009, 8, 20),
+            sex: 'M'
+        }]
+    }]
+}]);
+</pre>
+</body>
+</html>

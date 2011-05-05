@@ -1,0 +1,55 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function() {
+
+    var widths = [150, 200, 100],
+    i = 0;
+
+    Ext.tip.QuickTipManager.init();
+
+    w = Ext.create('Ext.window.Window', {
+        title: 'align: \'center\', pack: \'center\'',
+        height: 800,
+        width: 300,
+        tbar: [{
+            text: 'Change box 1 width',
+            handler: function(b) {
+                var box1 = Ext.getCmp('box1'),
+                    newWidth = widths[i];
+                box1.setWidth(newWidth);
+                box1.body.update(newWidth + 'px wide');
+                i = (i + 1) % 3;
+            }
+        }],
+        layout: {
+            type: 'vbox',
+            align: 'center',
+            pack: 'center'
+        },
+        defaults: {
+            headerPosition: 'right'
+        },
+        items: [{
+            title: 'Starts at 100x100',
+            id: 'box1',
+            width: 100,
+            height: 100
+        }, {
+            title: 'Fixed at 100x100',
+            width: 100,
+            height: 100
+        }]
+    });
+    w.show();
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>

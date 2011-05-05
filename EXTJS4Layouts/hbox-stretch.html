@@ -1,0 +1,61 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function() {
+
+    var widths = [150, 200, 100],
+    i = 0;
+
+    Ext.tip.QuickTipManager.init();
+
+    w = Ext.create('Ext.window.Window', {
+        title: 'Child items are stretched vertically',
+        height: 300,
+        width: 800,
+        tbar: [{
+            text: 'Change fixed widths',
+            handler: function(b) {
+                var fixed1 = Ext.getCmp('fixed1'),
+                    fixed2 = Ext.getCmp('fixed2'),
+                    newWidth = widths[i];
+                fixed1.setWidth(newWidth);
+                fixed1.body.update(newWidth + 'px wide');
+                i = (i + 1) % 3;
+                newWidth = widths[i];
+                fixed2.setWidth(newWidth);
+                fixed2.body.update(newWidth + 'px wide');
+                i = (i + 1) % 3;
+            }
+        }],
+        layout: {
+            type: 'hbox',
+            align: 'stretch'
+        },
+        items: [{
+            id: 'fixed1',
+            title: 'Starts at 100',
+            width: 100
+        }, {
+            title: 'takes up 50% <b>remaining</b> space',
+            flex: 1
+        }, {
+            id: 'fixed2',
+            title: 'Starts at 100',
+            width: 100
+        }, {
+            title: 'takes up 50% <b>remaining</b> space',
+            flex: 1
+        }]
+    });
+    w.show();
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>

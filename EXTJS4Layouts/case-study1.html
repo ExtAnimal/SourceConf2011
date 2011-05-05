@@ -1,0 +1,31 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function(){
+
+    var appPanel = Ext.create('Ext.panel.Panel', {
+        dockedItems: {
+            dock: 'top',
+            xtype: 'toolbar',
+            items: {
+                text: 'Button'
+            }
+        },
+        bodyStyle: 'background-color:blue'
+    });
+
+    Ext.create('Ext.Viewport', {
+        layout: 'fit',
+        items: appPanel
+    });
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>

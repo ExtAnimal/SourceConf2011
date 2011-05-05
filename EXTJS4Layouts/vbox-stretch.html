@@ -1,0 +1,67 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+Ext.require(['*']);
+
+Ext.onReady(function() {
+
+    var heights = [150, 200, 100],
+    i = 0;
+
+    Ext.tip.QuickTipManager.init();
+
+    w = Ext.create('Ext.window.Window', {
+        title: 'Child items are stretched horizontally',
+        height: 800,
+        width: 300,
+        tbar: [{
+            text: 'Change fixed heights',
+            handler: function(b) {
+                var fixed1 = Ext.getCmp('fixed1'),
+                    fixed2 = Ext.getCmp('fixed2'),
+                    newHeight = heights[i];
+                fixed1.setHeight(newHeight);
+                fixed1.body.update(newHeight + 'px high');
+                i = (i + 1) % 3;
+                newHeight = heights[i];
+                fixed2.setHeight(newHeight);
+                fixed2.body.update(newHeight + 'px high');
+                i = (i + 1) % 3;
+            }
+        }],
+        defaults: {
+            headerPosition: 'right'
+        },
+        layout: {
+            type: 'vbox',
+            align: 'stretch'
+        },
+        items: [{
+            id: 'fixed1',
+            title: 'Starts at 100',
+            height: 100,
+            afterComponentLayout: function() {
+                console.log('top panel layed out');
+            }
+        }, {
+            title: 'takes up 50% remaining space',
+            flex: 1
+        }, {
+            id: 'fixed2',
+            title: 'Starts at 100',
+            height: 100
+        }, {
+            title: 'takes up 50% remaining space',
+            flex: 1
+        }]
+    });
+    w.show();
+
+});
+</script>
+</head>
+<body>
+</body>
+</html>
